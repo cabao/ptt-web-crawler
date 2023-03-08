@@ -38,6 +38,8 @@ class PttWebCrawler(object):
         group.add_argument('-i', metavar=('START_INDEX', 'END_INDEX'), type=int, nargs=2, help="Start and end index")
         group.add_argument('-a', metavar='ARTICLE_ID', help="Article ID")
         parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + __version__)
+        if not os.path.exists("data"):
+            os.mkdir("data")
 
         if not as_lib:
             if cmdline:
@@ -56,7 +58,7 @@ class PttWebCrawler(object):
                 article_id = args.a
                 self.parse_article(article_id, board)
 
-    def parse_articles(self, start, end, board, path='.', timeout=3):
+    def parse_articles(self, start, end, board, path='./data/', timeout=3):
             filename = board + '-' + str(start) + '-' + str(end) + '.json'
             filename = os.path.join(path, filename)
             self.store(filename, u'{"articles": [', 'w')
